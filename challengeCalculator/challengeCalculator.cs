@@ -2,8 +2,8 @@ using System;
 
 public class challengeCalculator{
 
-// Requirement 4.
-//    Deny negative numbers. An exception should be thrown that includes all of the negative numbers provided
+// Requirement 5.
+//    Ignore any number greater than 1000 e.g. 2,1001,6 will return 8
 	public static void Main(string[] args){
 		System.Console.WriteLine("Test");
         
@@ -50,17 +50,11 @@ public class challengeCalculator{
             try{
             intlist[count] = isValid(element);
             }catch(ArgumentException e){
-                Console.WriteLine("Negative Num: {0}", e.Message);
-
-            }
-            
+                Console.WriteLine("ExceptionThrow: Negative Num: {0}", e.Message);
+            }           
             count++;
             Console.WriteLine($"Element: {element}");
         }
-        
-        
-
-
         return intlist;
     }
 
@@ -69,6 +63,8 @@ public class challengeCalculator{
         Boolean res = int.TryParse(element, out number);
         if (number<0){
             throw new System.ArgumentException($"{number}");
+        }else if(number >=1000){
+            number = 0;
         }
         return number;
     }
