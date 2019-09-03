@@ -3,16 +3,17 @@ using System.Linq;
 
 public class challengeCalculator{
 
-// Stretch Goals 6.
-//   Display the formula used to calculate the result e.g. 2,4,rrrr,1001,6 will return 2+4+0+0+6 = 12
+// Stretch Goals 2.
+//Allow the application to process entered entries until Ctrl+C is used
 	public static void Main(string[] args){
-		System.Console.WriteLine("Test");
         
+        while(true){
 		Console.Write("Enter String\n");
 		String subjectString = Console.ReadLine();
 
         int sum = calculator(subjectString);
         System.Console.WriteLine("Calculated Result: {0}", sum);
+        }
     }
 
 // Calculations
