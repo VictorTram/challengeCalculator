@@ -2,8 +2,8 @@ using System;
 
 public class challengeCalculator{
 
-// Requirement 3.
-//    Support a newline character as an alternative delimiter e.g. 1\n2,3 will return 6
+// Requirement 4.
+//    Deny negative numbers. An exception should be thrown that includes all of the negative numbers provided
 	public static void Main(string[] args){
 		System.Console.WriteLine("Test");
         
@@ -42,12 +42,18 @@ public class challengeCalculator{
         string [] strList = str.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
         int[] intlist = new int[strList.Length];
         int count = 0;
-        int num;
+        //int num;
         foreach (string element in strList)
         {
             
-            bool res = int.TryParse(element, out num);
-            intlist[count] = num;
+            //bool res = int.TryParse(element, out num);
+            try{
+            intlist[count] = isValid(element);
+            }catch(ArgumentException e){
+                Console.WriteLine("Negative Num: {0}", e.Message);
+
+            }
+            
             count++;
             Console.WriteLine($"Element: {element}");
         }
@@ -56,6 +62,15 @@ public class challengeCalculator{
 
 
         return intlist;
+    }
+
+    public static int isValid(string element){
+        int number;
+        Boolean res = int.TryParse(element, out number);
+        if (number<0){
+            throw new System.ArgumentException($"{number}");
+        }
+        return number;
     }
 
 }
