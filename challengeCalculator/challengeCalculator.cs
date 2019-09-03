@@ -3,10 +3,8 @@ using System.Linq;
 
 public class challengeCalculator{
 
-// Requirement 6.
-//   Support 1 custom delimiter of one character length
-//      use the format: //{delimiter}\n{numbers} e.g. //;\n2;5 will return 7
-//      all previous formats should also be supported
+// Stretch Goals 6.
+//   Display the formula used to calculate the result e.g. 2,4,rrrr,1001,6 will return 2+4+0+0+6 = 12
 	public static void Main(string[] args){
 		System.Console.WriteLine("Test");
         
@@ -21,9 +19,11 @@ public class challengeCalculator{
     public static int calculator(string str){
         
         int sum=0;
-        foreach(int element in getVals(str)){
+        int [] res = getVals(str);
+        foreach(int element in res){
             sum = sum + element;
         }
+        displayRes(res,'+');
         return sum;
     }
 
@@ -81,6 +81,16 @@ public class challengeCalculator{
             Console.WriteLine("CustDelim: {0}", element);
         }
         return customDelim;
+    }
+
+    public static void displayRes(int[] res, char sign){
+        String result="";
+        for(int i=0 ;i<res.Length; i++){
+            result = result + " " + res[i] + " ";
+            if(i != res.Length-1)
+                result = result + sign;
+        }
+        Console.WriteLine("Result: {0}",result);
     }
 
 }
