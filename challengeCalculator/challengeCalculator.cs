@@ -5,14 +5,57 @@ public class challengeCalculator{
 
 // Stretch Goals 2.
 //Allow the application to process entered entries until Ctrl+C is used
+
+    public static Boolean toggleNegative = false;
+    public static int upperBound = 1000;
+
 	public static void Main(string[] args){
         
         while(true){
-		Console.Write("Enter String\n");
-		String subjectString = Console.ReadLine();
+            // Toggling for Negative Numbers
+            Console.WriteLine("Allow Negative Numbers? (y/n)");
+            String input = Console.ReadLine();
+            while(!(input == "y" || input == "n")){
+                Console.WriteLine("Invalid input. Please Try again. Allow Negative Numbers? (y/n)");
+                input = Console.ReadLine();
+            }
+            if(input =="y")
+                toggleNegative = true;
+            else if(input =="n")
+                toggleNegative = false;
 
-        int sum = calculator(subjectString);
-        System.Console.WriteLine("Calculated Result: {0}", sum);
+            // Set new Upperbound
+            Console.WriteLine("The upper bound is currently set to {0}. Do you want to change it? (y/n)", upperBound);
+            input = "";
+            input = Console.ReadLine();
+            while(!(input == "y" || input == "n")){
+                Console.WriteLine("Invalid input. Please Try again. Change upper bound? (y/n)");
+                
+        
+                input = Console.ReadLine();
+            }
+            if(input =="y"){
+                Console.Write("Please enter in the desired upper bound: ");
+                int newUpperbound;
+                while (!int.TryParse(Console.ReadLine(), out newUpperbound))
+                {
+                    Console.WriteLine("Please Enter a valid numerical value!");
+                }
+                upperBound = newUpperbound;           
+            
+            }
+            else if(input =="n"){
+                Console.WriteLine("The upperbound will remain at: {0}", upperBound);
+            }
+                
+
+
+
+            Console.Write("Enter String\n");
+            String subjectString = Console.ReadLine();
+
+            int sum = calculator(subjectString);
+            System.Console.WriteLine("Calculated Result: {0}", sum);
         }
     }
 
@@ -45,7 +88,10 @@ public class challengeCalculator{
         String [] strList = str.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
         int[] intlist = new int[strList.Length];
         int count = 0;
-        //int num;
+        
+        // Toggle Negative Numbers
+        
+
         foreach (string element in strList)
         {
             
@@ -64,10 +110,12 @@ public class challengeCalculator{
     public static int isValid(string element){
         int number;
         Boolean res = int.TryParse(element, out number);
-        if (number<0){
-            throw new System.ArgumentException($"{number}");
-        }else if(number >=1000){
+
+        if(number >= upperBound)
             number = 0;
+        
+        if (number<0 && !toggleNegative){
+            throw new System.ArgumentException($"{number}");
         }
         return number;
     }
@@ -86,6 +134,8 @@ public class challengeCalculator{
 
     public static void displayRes(int[] res, char sign){
         String result="";
+
+        
         for(int i=0 ;i<res.Length; i++){
             result = result + " " + res[i] + " ";
             if(i != res.Length-1)
