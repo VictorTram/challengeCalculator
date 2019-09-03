@@ -2,27 +2,32 @@ using System;
 
 public class challengeCalculator{
 
-// 1)
-//    Support a maximum of 2 numbers
-// Use a comma delimited format e.g. 5000 will return 5000; 1,20 will return 21
-// Invalid/Missing numbers should be converted to 0 e.g. "" will return 0; 5,tytyt will return 5
+// Requirement 3.
+//    Support a newline character as an alternative delimiter e.g. 1\n2,3 will return 6
 	public static void Main(string[] args){
 		System.Console.WriteLine("Test");
-        string subjectString;
+        
 		Console.Write("Enter String\n");
-		subjectString = Console.ReadLine();
+		String subjectString = Console.ReadLine();
+
+        String s = "4,6,8\n9,4";
+        string [] split = s.Split(new Char [] {',' , '\n' });
+        foreach (var a in split){
+            //System.Diagnostics.Debug.WriteLine(a);
+            System.Console.WriteLine(a);
+
+        }
+
+        string strings = "4,6,8\n9,4";
 
         
-        
-
         int sum = calculator(subjectString);
         System.Console.WriteLine(sum);
     }
 
+// Calculations
     public static int calculator(string str){
         
-
-        //int[] nums = getVals(str);
         int sum=0;
         foreach(int element in getVals(str)){
             sum = sum + element;
@@ -30,22 +35,24 @@ public class challengeCalculator{
         return sum;
     }
 
+
+// Input formating/handling
     public static int[] getVals(string str){
-        char delimiter = ',';
-        String[] strList = str.Split(delimiter);
+        String [] delimiter = {",","\\n"};
+        string [] strList = str.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
         int[] intlist = new int[strList.Length];
         int count = 0;
-        int number;
+        int num;
         foreach (string element in strList)
         {
             
-            bool res = int.TryParse(element, out number);
-            intlist[count] = number;
-            //Console.WriteLine($"Element: {element}");
+            bool res = int.TryParse(element, out num);
+            intlist[count] = num;
             count++;
+            Console.WriteLine($"Element: {element}");
         }
-        //int[] res = {1,2,3};
-
+        
+        
 
 
         return intlist;
