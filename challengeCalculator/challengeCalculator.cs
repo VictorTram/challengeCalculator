@@ -8,6 +8,9 @@ public class challengeCalculator{
 
     public static Boolean toggleNegative = false;
     public static int upperBound = 1000;
+    public static String delimA = ",";
+    public static String delimB = "\\n";
+    public static String[] delimiter={delimA,delimB};
 
 	public static void Main(string[] args){
         
@@ -42,13 +45,47 @@ public class challengeCalculator{
                     Console.WriteLine("Please Enter a valid numerical value!");
                 }
                 upperBound = newUpperbound;           
-            
+                Console.WriteLine("The upperbound has been updated to be: {0}", upperBound);
             }
             else if(input =="n"){
                 Console.WriteLine("The upperbound will remain at: {0}", upperBound);
             }
-                
-
+            
+            // Toggle Delimiters in Requirement 3.  Both or ',' or '\n'.'
+            Console.WriteLine("Currently the set Delimiters are set to: {0} ", String.Join(" ",delimiter));
+            Console.WriteLine("Would you like to alternate the set Delimiters? (y/n)");
+            input = Console.ReadLine();
+            if(input =="y"){
+                Console.WriteLine("Please Select which set delimiters you would like to use:");
+                Console.WriteLine("1) ,");
+                Console.WriteLine("2) \\n");
+                Console.WriteLine("3) Both ");
+                Console.WriteLine("Enter in 1 , 2 , or 3");
+                do{
+                    input = Console.ReadLine();
+                    switch (input){
+                    case "1":
+                        delimiter[0] = ",";
+                        delimiter[1] = "";
+                        break;
+                    case "2":
+                        delimiter[0] = "";
+                        delimiter[1] = "\\n";
+                        break;
+                    case "3":
+                        delimiter[0] = ",";
+                        delimiter[1] = "\\n";
+                        break;
+                    default:
+                        Console.WriteLine("Please enter a valid input of either 1 , 2 , or 3");
+                        break;
+                    }
+                }
+                while(!(input=="1") && !(input=="2") && !(input=="3"));
+            }
+            else if(input =="n"){
+                Console.WriteLine("The set delimiters will remain as {0}", delimiter);
+            }
 
 
             Console.Write("Enter String\n");
@@ -74,7 +111,7 @@ public class challengeCalculator{
 
 // Input formating/handling
     public static int[] getVals(string str){
-        String [] delimiter = {",","\\n"};
+        //String [] delimiter = {",","\\n"};
         String [] customDelim;
 
         // When the input starts with a //, its an indication that custom delimiters will be present
