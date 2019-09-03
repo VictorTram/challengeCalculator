@@ -1,28 +1,20 @@
 using System;
+using System.Linq;
 
 public class challengeCalculator{
 
-// Requirement 5.
-//    Ignore any number greater than 1000 e.g. 2,1001,6 will return 8
+// Requirement 6.
+//   Support 1 custom delimiter of one character length
+//      use the format: //{delimiter}\n{numbers} e.g. //;\n2;5 will return 7
+//      all previous formats should also be supported
 	public static void Main(string[] args){
 		System.Console.WriteLine("Test");
         
 		Console.Write("Enter String\n");
 		String subjectString = Console.ReadLine();
 
-        String s = "4,6,8\n9,4";
-        string [] split = s.Split(new Char [] {',' , '\n' });
-        foreach (var a in split){
-            //System.Diagnostics.Debug.WriteLine(a);
-            System.Console.WriteLine(a);
-
-        }
-
-        string strings = "4,6,8\n9,4";
-
-        
         int sum = calculator(subjectString);
-        System.Console.WriteLine(sum);
+        System.Console.WriteLine("Calculated Result: {0}", sum);
     }
 
 // Calculations
@@ -39,7 +31,17 @@ public class challengeCalculator{
 // Input formating/handling
     public static int[] getVals(string str){
         String [] delimiter = {",","\\n"};
-        string [] strList = str.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
+        String [] customDelim;
+
+        // When the input starts with a //, its an indication that custom delimiters will be present
+        if(str.Substring(0,2) == "//"){
+            // Split the input string based on the first '\n' and process the first half
+            customDelim = getCustomDelimiter(str.Substring(0,str.IndexOf("\\n")));
+            str = str.Substring(str.IndexOf("\\n"));
+            delimiter = delimiter.Union(customDelim).ToArray();
+        }
+
+        String [] strList = str.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
         int[] intlist = new int[strList.Length];
         int count = 0;
         //int num;
@@ -67,6 +69,18 @@ public class challengeCalculator{
             number = 0;
         }
         return number;
+    }
+
+    public static string[] getCustomDelimiter(string str){
+        // Trim off the leading '//'
+        str = str.Substring(2);
+        
+        String[] delim = {"[","]"};
+        String [] customDelim = str.Split(delim,StringSplitOptions.RemoveEmptyEntries);
+        foreach(String element in customDelim){
+            Console.WriteLine("CustDelim: {0}", element);
+        }
+        return customDelim;
     }
 
 }
