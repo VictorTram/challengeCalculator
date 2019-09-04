@@ -67,7 +67,7 @@ public class challengeCalculator{
     }	  
 }
 
-//
+// Separate Class for the calculator objects. 
 public class Calculator{
     public static String[] delimiter = {",","\\n"};
     public static String[] customDelimiter{get; set;}
@@ -130,10 +130,9 @@ public class Calculator{
             }
         }
         setFormulaValues(str);
-        
-
     }
 
+// Prompts user to change/configure settings of allowNegatives, change UpperBound , and set Delimiters
     public static void changeSettings(){
      // Toggling for Negative Numbers
         Console.WriteLine("Allow Negative Numbers? (y/n)");
@@ -147,7 +146,7 @@ public class Calculator{
         else if(input =="n")
             allowNegatives = false;
 
-        // Set new Upperbound
+    // Set new Upperbound
         Console.WriteLine("The upper bound is currently set to {0}. Do you want to change it? (y/n)", upperBound);
         input = "";
         input = Console.ReadLine();
@@ -168,8 +167,7 @@ public class Calculator{
         else if(input =="n"){
             Console.WriteLine("The upperbound will remain at: {0}", upperBound);
         }
-            
-        // Toggle Delimiters in Requirement 3.  Both or ',' or '\n'.'
+    // Toggle Delimiters in Requirement 3.  Both or ',' or '\n'.'
         Console.WriteLine("Currently the set Delimiters are set to: {0} ", String.Join(" ",delimiter));
         Console.WriteLine("Would you like to alternate the set Delimiters? (y/n)");
         input = Console.ReadLine();
@@ -206,8 +204,7 @@ public class Calculator{
         }  
     }
 
-
-
+    // Checks if element fits within contraints of the Calculator. (Negatives & upperbounds)
     public static int isValid(string element){
         int number;
         Boolean res = int.TryParse(element, out number);
@@ -220,6 +217,7 @@ public class Calculator{
         return number;
     }
 
+// Initializer
     public static void initializeCalc(String str){
         formatValues(str);
         writeFormula();
@@ -251,6 +249,7 @@ public class operationsCalculator : Calculator{
         Console.WriteLine(formula + " = "+res);
     }
 
+    // Addition
     public int sum(){
         int res=0;
         Boolean firstElement = false;
@@ -264,6 +263,8 @@ public class operationsCalculator : Calculator{
         }
         return res;
     }
+
+    // Subtraction
     public int min(){
         int res=0;
         Boolean firstElement = false;
@@ -277,6 +278,7 @@ public class operationsCalculator : Calculator{
         }
         return res;
     }
+    // Multiplition
     public int mul(){
         int res=1;
         Boolean firstElement = false;
@@ -290,6 +292,8 @@ public class operationsCalculator : Calculator{
         }
         return res;
     }
+
+    // Division
     public double div(){
         double res =0;
         Boolean firstElement = false;
@@ -314,9 +318,7 @@ public class operationsCalculator : Calculator{
 
     public void changeOperator(char sign){
         calcOperator = sign;
-    }
-
-    
+    }  
 }
 
 
