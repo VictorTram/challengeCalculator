@@ -3,15 +3,14 @@ using System;
 using System.Linq;
 
 public class challengeCalculator{
-
     public static void Main(string[] args){
-        //AddCalculator newCalculator = new AddCalculator();
         operationsCalculator newCalculator;
         while(true){
             do{
                 Console.WriteLine("Please Enter in the Symbol for the calculator you'd like to use:");
                 Console.WriteLine("+ : Addition \n- : Subtration \n* : Multiplication \n/ : Division");
-
+                
+            // Operations Case. OperationsCalculator changes depending on input.
                 String input = Console.ReadLine();
                 switch(input){
                     case "+":
@@ -42,12 +41,17 @@ public class challengeCalculator{
         }
         
     }
+    
+    // loopCalculator Function is used to recieve continual input from user until Ctrl+C is pressed.
     public static void loopCalculator(operationsCalculator newCalculator){
         while(true){
 
             Console.Write("Enter String\n");
             String subjectString = Console.ReadLine();
+            // The Initialize Function triggers the prompt that allows you to set the contraints of
+            // the allowNegatives , set UpperBound, and custom Delimiters
             newCalculator.initialize(subjectString);
+
             newCalculator.results();          
             Console.WriteLine("Do you want to change settings(Upper Bound, Allow Negatives, Alternate Set Delimiters)?[y/n] \nType 'exit' to try a different caluclator!");
             subjectString = Console.ReadLine();
@@ -60,11 +64,10 @@ public class challengeCalculator{
             else if(subjectString == "exit")
                 break;
         }
-    }	
-
-    
+    }	  
 }
 
+//
 public class Calculator{
     public static String[] delimiter = {",","\\n"};
     public static String[] customDelimiter{get; set;}
