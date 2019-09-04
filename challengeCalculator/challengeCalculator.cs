@@ -5,29 +5,64 @@ using System.Linq;
 public class challengeCalculator{
 
     public static void Main(string[] args){
-        AddCalculator newCalculator = new AddCalculator();
-        
+        //AddCalculator newCalculator = new AddCalculator();
+        operationsCalculator newCalculator;
         while(true){
+            do{
+                Console.WriteLine("Please Enter in the Symbol for the calculator you'd like to use:");
+                Console.WriteLine("+ : Addition \n- : Subtration \n* : Multiplication \n/ : Division");
+
+                String input = Console.ReadLine();
+                switch(input){
+                    case "+":
+                        newCalculator= new operationsCalculator();
+                        newCalculator.changeOperator('+');
+                        loopCalculator(newCalculator);
+                        break;
+                    case "-":
+                        newCalculator= new operationsCalculator();
+                        newCalculator.changeOperator('-');
+                        loopCalculator(newCalculator);
+                        break;
+                    case "*":
+                        newCalculator= new operationsCalculator();
+                        newCalculator.changeOperator('*');
+                        loopCalculator(newCalculator);
+                        break;
+                    case "/":
+                        newCalculator= new operationsCalculator();
+                        newCalculator.changeOperator('/');
+                        loopCalculator(newCalculator);
+                        break;
+                    default:
+                        break;
+                }
+
+            }while(true);
+        }
+        
+    }
+    public static void loopCalculator(operationsCalculator newCalculator){
+        while(true){
+
             Console.Write("Enter String\n");
             String subjectString = Console.ReadLine();
-            
             newCalculator.initialize(subjectString);
-            
-            newCalculator.sum();
-
-            
-        
-            
+            newCalculator.results();          
             Console.WriteLine("Do you want to change settings(Upper Bound, Allow Negatives, Alternate Set Delimiters)?[y/n] \nType 'exit' to try a different caluclator!");
             subjectString = Console.ReadLine();
             while(!(subjectString == "y" || subjectString == "n" || subjectString == "exit")){
                 Console.WriteLine("Invalid input. Please Try again. Do you want to Change Settings? (y/n)\nIf you want to try a different Calculator type 'exit'.");
                 subjectString = Console.ReadLine();
             }
-            if(subjectString =="y")
+            if(subjectString == "y")
                 newCalculator.change();
+            else if(subjectString == "exit")
+                break;
         }
     }	
+
+    
 }
 
 public class Calculator{
@@ -38,11 +73,6 @@ public class Calculator{
     public static int upperBound{ get; set;}
     public static char calcOperator{get;set;}
     public static String formula{get; set;}
-    public static int res{get; set;}
-
-    public static void setResult(int result){
-        res = result;
-    }
 
     public static int[] getFormulaValues(){
         return formulaValues;
@@ -89,13 +119,14 @@ public class Calculator{
     public static void formatValues(String str){
         String customDelim;
         // When the input starts with a <//> , its an indication that custom delimiters will be present
-        if(str.Substring(0,2) == "//"){
-            // Split the input string based on the first '\n' and process the first half
-            customDelimiters(str.Substring(0,str.IndexOf("\\n")));
-            str = str.Substring(str.IndexOf("\\n"));
+        if(str.Length>=2){
+            if(str.Substring(0,2) == "//"){
+                // Split the input string based on the first '\n' and process the first half
+                customDelimiters(str.Substring(0,str.IndexOf("\\n")));
+                str = str.Substring(str.IndexOf("\\n"));
+            }
         }
         setFormulaValues(str);
-        
         
 
     }
@@ -193,18 +224,82 @@ public class Calculator{
 
 }
 
-class AddCalculator : Calculator{
-    public void sum(){
-        int sum=0;
-        foreach(int element in getFormulaValues()){
-            sum = sum + element;
+public class operationsCalculator : Calculator{
+    public void results(){
+        double res=0;
+
+        switch(calcOperator){
+            case '+':
+                res = sum();
+                break;
+            case '-':
+                res = min();
+                break;
+            case '*':
+                res = mul();
+                break;
+            case '/':
+                res = div();
+                break;
+            default:
+                break;
         }
-        res = sum;
         writeFormula();
         Console.WriteLine(formula + " = "+res);
     }
-    public AddCalculator(){       
-        calcOperator = '+';
+
+    public int sum(){
+        int res=0;
+        Boolean firstElement = false;
+        foreach(int element in getFormulaValues()){
+            if(!firstElement){
+                res = element;
+                firstElement = true;
+            }
+            else
+                res = res + element;
+        }
+        return res;
+    }
+    public int min(){
+        int res=0;
+        Boolean firstElement = false;
+        foreach(int element in getFormulaValues()){
+            if(!firstElement){
+                res = element;
+                firstElement = true;
+            }
+            else
+                res = res - element;
+        }
+        return res;
+    }
+    public int mul(){
+        int res=1;
+        Boolean firstElement = false;
+        foreach(int element in getFormulaValues()){
+            if(!firstElement){
+                res = element;
+                firstElement = true;
+            }
+            else
+                res = res * element;
+        }
+        return res;
+    }
+    public double div(){
+        double res =0;
+        Boolean firstElement = false;
+        foreach(int element in getFormulaValues()){
+            if(!firstElement){
+                res = element;
+                firstElement = true;
+            }
+            else
+                res = res/element;        }
+        return res;
+    }
+    public operationsCalculator(){       
         changeSettings();
     }
     public void initialize(String str){
@@ -212,6 +307,10 @@ class AddCalculator : Calculator{
     }
     public void change(){
         changeSettings();
+    }
+
+    public void changeOperator(char sign){
+        calcOperator = sign;
     }
 
     
